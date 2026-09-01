@@ -1,0 +1,154 @@
+{
+  "title": "Acme Corp",
+  "logo": {
+    "light": {
+      "image": "/logo-light.svg",
+      "padding": {
+        "top": 12,
+        "bottom": 12
+      }
+    },
+    "dark": {
+      "image": "/logo-dark.svg",
+      "padding": {
+        "top": 12,
+        "bottom": 12
+      }
+    },
+    "pill": false
+  },
+  "theme": {
+    "themeColor": "#059669",
+    "card": {
+      "cover": {
+        "colors": ["#059669", "#10B981", "#34D399", "#047857"]
+      }
+    },
+    "code": {
+      "syntaxTheme": {
+        "light": "vitesse-light",
+        "dark": "kanagawa-wave"
+      }
+    }
+  },
+  "navbar": {
+    "blur": true,
+    "primary": {
+      "text": "Dashboard",
+      "href": "https://radiantdocs.com/dashboard",
+      "icon": "lucide:layout-dashboard"
+    }
+  },
+  "home": "welcome",
+  "assistant": {
+    "questions": [
+      "How do I edit this docs site?",
+      "How do I add a new page?",
+      "How do I publish my changes?"
+    ]
+  },
+  "navigation": {
+    "pages": [
+      {
+        "page": "welcome",
+        "title": "Welcome",
+        "icon": "lucide:house"
+      },
+      {
+        "page": "quickstart",
+        "title": "Quickstart",
+        "icon": "lucide:rocket"
+      },
+      {
+        "group": "Build your docs",
+        "pages": [
+          {
+            "page": "build-your-docs/edit-content",
+            "title": "Edit content",
+            "icon": "lucide:file-pen"
+          },
+          {
+            "page": "build-your-docs/components",
+            "title": "Use components",
+            "icon": "lucide:component"
+          },
+          {
+            "page": "build-your-docs/code-examples",
+            "title": "Code examples",
+            "icon": "lucide:code"
+          },
+          {
+            "page": "build-your-docs/customize-site",
+            "title": "Customize site",
+            "icon": "lucide:palette"
+          },
+          {
+            "page": "build-your-docs/use-ai",
+            "title": "Use AI",
+            "icon": "lucide:sparkles"
+          },
+          {
+            "page": "build-your-docs/publish",
+            "title": "Publish",
+            "icon": "lucide:cloud-upload"
+          }
+        ]
+      },
+      {
+        "group": "API reference",
+        "icon": "lucide:file-code-2",
+        "pages": [
+          {
+            "openapi": {
+              "source": "api/openapi.yaml",
+              "endpoint": "GET /projects"
+            },
+            "title": "List projects"
+          },
+          {
+            "openapi": {
+              "source": "api/openapi.yaml",
+              "endpoint": "POST /projects"
+            },
+            "title": "Create a project"
+          },
+          {
+            "openapi": {
+              "source": "api/openapi.yaml",
+              "endpoint": "PATCH /projects/{project_id}"
+            },
+            "title": "Update a project"
+          },
+          {
+            "openapi": {
+              "source": "api/openapi.yaml",
+              "endpoint": "DELETE /projects/{project_id}"
+            },
+            "title": "Delete a project"
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://radiantdocs.com",
+      "github": "https://github.com",
+      "x": "https://x.com"
+    },
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "https://radiantdocs.com/dashboard"
+      },
+      {
+        "text": "Editor",
+        "href": "https://radiantdocs.com/editor"
+      },
+      {
+        "text": "Settings",
+        "href": "https://radiantdocs.com/dashboard/settings"
+      }
+    ]
+  }
+}

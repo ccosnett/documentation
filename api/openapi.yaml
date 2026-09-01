@@ -1,0 +1,269 @@
+openapi: 3.0.3
+info:
+  title: Acme Projects API
+  version: 1.0.0
+  contact:
+    name: Acme API Support
+    url: https://example.com/support
+  description: >
+    A sample API reference for managing projects. Replace these endpoints,
+    schemas, and examples with the resources your product exposes.
+servers:
+  - url: https://api.example.com/v1
+    description: Production
+security:
+  - bearerAuth: []
+tags:
+  - name: Projects
+    description: Create, update, list, and delete projects.
+paths:
+  /projects:
+    get:
+      summary: List projects
+      description: Returns projects visible to the authenticated account.
+      operationId: listProjects
+      tags:
+        - Projects
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of projects to return.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: cursor
+          in: query
+          description: Cursor from a previous response for pagination.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A paginated list of projects.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectList"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    post:
+      summary: Create a project
+      description: Creates a new project in the authenticated account.
+      operationId: createProject
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProjectRequest"
+      responses:
+        "201":
+          description: The project was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /projects/{project_id}:
+    parameters:
+      - $ref: "#/components/parameters/ProjectId"
+    patch:
+      summary: Update a project
+      description: Updates editable fields on an existing project.
+      operationId: updateProject
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProjectRequest"
+      responses:
+        "200":
+          description: The updated project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      summary: Delete a project
+      description: Permanently deletes a project and its associated data.
+      operationId: deleteProject
+      tags:
+        - Projects
+      responses:
+        "204":
+          description: The project was deleted.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      description: Unique identifier for the project.
+      required: true
+      schema:
+        type: string
+        example: prj_01HX3B2CNV8Z9R6E8J4T5K2M1Q
+  responses:
+    BadRequest:
+      description: The request could not be processed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: The request is missing a valid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: The requested project was not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    Project:
+      type: object
+      required:
+        - id
+        - name
+        - slug
+        - status
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project.
+          example: prj_01HX3B2CNV8Z9R6E8J4T5K2M1Q
+        name:
+          type: string
+          description: Human-readable project name.
+          example: Launch checklist
+        slug:
+          type: string
+          description: URL-safe project identifier.
+          example: launch-checklist
+        status:
+          type: string
+          description: Current project state.
+          enum:
+            - draft
+            - active
+            - archived
+          example: active
+        description:
+          type: string
+          nullable: true
+          description: Optional project summary.
+          example: Tasks and docs for the launch plan.
+        created_at:
+          type: string
+          format: date-time
+          description: Time when the project was created.
+          example: "2026-06-14T14:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Time when the project was last updated.
+          example: "2026-06-14T15:05:00Z"
+    ProjectList:
+      type: object
+      required:
+        - data
+        - has_more
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        has_more:
+          type: boolean
+          description: Whether another page of results is available.
+          example: false
+        next_cursor:
+          type: string
+          nullable: true
+          description: Cursor to use when fetching the next page.
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Human-readable project name.
+          example: Launch checklist
+        slug:
+          type: string
+          description: Optional URL-safe identifier. Generated when omitted.
+          example: launch-checklist
+        description:
+          type: string
+          description: Optional project summary.
+          example: Tasks and docs for the launch plan.
+    UpdateProjectRequest:
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          description: Updated project name.
+          example: Launch checklist
+        status:
+          type: string
+          description: Updated project state.
+          enum:
+            - draft
+            - active
+            - archived
+          example: archived
+        description:
+          type: string
+          description: Updated project summary.
+          example: Final launch tasks and documentation.
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Stable machine-readable error code.
+              example: not_found
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Project not found.
