@@ -68,11 +68,6 @@
             "icon": "lucide:file-pen"
           },
           {
-            "page": "build-your-docs/components",
-            "title": "Use components",
-            "icon": "lucide:component"
-          },
-          {
             "page": "build-your-docs/code-examples",
             "title": "Code examples",
             "icon": "lucide:code"
@@ -83,14 +78,19 @@
             "icon": "lucide:palette"
           },
           {
-            "page": "build-your-docs/use-ai",
-            "title": "Use AI",
-            "icon": "lucide:sparkles"
-          },
-          {
             "page": "build-your-docs/publish",
             "title": "Publish",
             "icon": "lucide:cloud-upload"
+          },
+          {
+            "page": "build-your-docs/components",
+            "title": "Use components",
+            "icon": "lucide:component"
+          },
+          {
+            "page": "build-your-docs/use-ai",
+            "title": "Use AI",
+            "icon": "lucide:sparkles"
           }
         ]
       },
